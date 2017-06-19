@@ -1,10 +1,7 @@
 ﻿using Dapper;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SimpleLibrarySystem
 {
@@ -12,7 +9,7 @@ namespace SimpleLibrarySystem
     {
         public List<Book> getAllBooksOrSearch(string searchText)
         {
-            using (IDbConnection connection =  new System.Data.SqlClient.SqlConnection(Helper.ConnectionString("SimpleLibrarySystem")))
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(Helper.ConnectionString("SimpleLibrarySystem")))
             {
                 return connection.Query<Book>("dbo.Book_GetAllBooksOrSearch @SearchText", new { SearchText = searchText }).ToList();
             }
@@ -23,6 +20,14 @@ namespace SimpleLibrarySystem
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(Helper.ConnectionString("SimpleLibrarySystem")))
             {
                 return connection.Query<Book>("dbo.Book_GetBookByID @id", new { id = bookID }).FirstOrDefault();
+            }
+        }
+
+        public void insertUpdateDeleteBook(int ID, string bookNumber, string title, string author, int loanPeriod, bool availability, string borrowerID, string status)
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(Helper.ConnectionString("SimpleLibrarySystem")))
+            {
+                connection.Execute("dbo.Book_AddEditDeleteBook @id, @BookNumber, @Title, @Author, @LoanPeriod, @Availability, @IsTextbook, @BorrowerID, @Status", new { id = ID, BookNumber = bookNumber, Title = title, Author = author, LoanPeriod = loanPeriod, Availability = availability, BorrowerID = borrowerID, Status = status });
             }
         }
     }

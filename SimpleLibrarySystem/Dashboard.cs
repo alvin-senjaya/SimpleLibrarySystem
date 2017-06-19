@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,11 @@ namespace SimpleLibrarySystem
         public Dashboard()
         {
             InitializeComponent();
+            this.bookNumberTextbox.Validating += new System.ComponentModel.CancelEventHandler(this.textBox_Validating);
+            this.bookTitleTextbox.Validating += new System.ComponentModel.CancelEventHandler(this.textBox_Validating);
+            this.bookAuthorTextbox.Validating += new System.ComponentModel.CancelEventHandler(this.textBox_Validating);
+            errorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink;
+
             books = db.getAllBooksOrSearch(bookTitleTextbox.Text);
             updateBookList();
             bookList.SelectedIndex = -1;
@@ -37,25 +43,16 @@ namespace SimpleLibrarySystem
                 bookTitleTextbox.Text = details.Title;
                 bookAuthorTextbox.Text = details.Author;
 
-                if(details.IsTextbook)
-                {
-                    bookTypeTextbookRadio.Checked = true;
-                    bookTypeBookRadio.Checked = false;
-                }
-                else
-                {
-                    bookTypeBookRadio.Checked = true;
-                    bookTypeTextbookRadio.Checked = false;
-                }
-
                 bookLoanPeriodTextbox.Text = details.LoanPeriod.ToString();
                 bookAvailabilityTextbox.Text = details.Availability == true ? "Available" : "Unavailable";
-                bookBorrowerIDTextbox.Text = details.BorrowerID == null ? "" : details.BorrowerID;
+                bookBorrowerIDTextbox.Text = details.BorrowerID == null ? "Available" : details.BorrowerID;
             }
         }
 
         private void bookList_SelectedIndexChanged(object sender, EventArgs e)
         {
+            disableBookFiels();
+
             if (bookList.SelectedIndex >= 0)
             {
                 Book bookDetails = new Book();
@@ -67,38 +64,193 @@ namespace SimpleLibrarySystem
             }
         }
 
+        private void disableBookFiels()
+        {
+            bookNumberTextbox.Text = "";
+            bookNumberTextbox.ReadOnly = true;
+
+            bookTitleTextbox.Text = "";
+            bookTitleTextbox.ReadOnly = true;
+
+            bookAuthorTextbox.Text = "";
+            bookAuthorTextbox.ReadOnly = true;
+
+            bookAddOrUpdateButton.Visible = false;
+        }
+
+        private void enableBookFields()
+        {
+            bookSearchTextbox.Text = "";
+
+            bookNumberTextbox.Text = "";
+            bookNumberTextbox.ReadOnly = false;
+
+            bookTitleTextbox.Text = "";
+            bookTitleTextbox.ReadOnly = false;
+
+            bookAuthorTextbox.Text = "";
+            bookAuthorTextbox.ReadOnly = false;
+
+            bookAvailabilityTextbox.Text = "Available";
+            bookBorrowerIDTextbox.Text = "Available";
+
+            bookLoanPeriodTextbox.Text = "14";
+
+            bookAddOrUpdateButton.Visible = true;
+        }
+
         private void bookSearchTextbox_TextChanged(object sender, EventArgs e)
         {
+            // Disable editing in the book details section.
+            disableBookFiels();
+
             books = db.getAllBooksOrSearch(bookSearchTextbox.Text);
             updateBookList();
         }
 
         private void insertNewBookButton_Click(object sender, EventArgs e)
         {
-            bookNumberTextbox.Text = String.Empty;
-            bookNumberTextbox.ReadOnly = false;
+            // Enable editing in the book details section.
+            enableBookFields();
+            bookAddOrUpdateButton.Text = "Add";
+        }
 
-            bookTitleTextbox.Text = String.Empty;
-            bookTitleTextbox.ReadOnly = false;
+        private void editBookButton_Click(object sender, EventArgs e)
+        {
+            // Enable editing in the book details section.
+            enableBookFields();
+            bookAddOrUpdateButton.Text = "Edit";
 
-            bookAuthorTextbox.Text = String.Empty;
-            bookAuthorTextbox.ReadOnly = false;
-
-            bookTypeBookRadio.AutoCheck = true;
-            bookTypeTextbookRadio.AutoCheck = true;
-            bookTypeBookRadio.Checked = true;
+            Book bookDetails = new Book();
+            bookDetails = db.getBookByID(int.Parse(bookList.SelectedValue.ToString()));
+            updateBookDetails(bookDetails);
         }
 
         private void bookTypeBookOrTextBookRadio_CheckedChanged(object sender, EventArgs e)
         {
+            // Loan period for a book is always set to 14 days
             if (((RadioButton)sender).Text == "Book")
             {
                 bookLoanPeriodTextbox.Text = "14";
             }
+            // Loan period for a Textbook is always set to 2 days
             else
             {
                 bookLoanPeriodTextbox.Text = "2";
             }
+        }
+
+        private void bookAddOrUpdateButton_Click(object sender, EventArgs e)
+        {
+            bool availability = bookAvailabilityTextbox.Text == "Available" ? true : false;
+            int loanPeriod = int.Parse(bookLoanPeriodTextbox.Text);
+            string status = "";
+
+            // Add new book
+            if (bookAddOrUpdateButton.Text == "Add")
+            {
+                // Add new book
+                if (ValidateChildren(ValidationConstraints.Enabled))
+                {
+                    status = "Insert";
+                    try
+                    {
+                        db.insertUpdateDeleteBook(0, bookNumberTextbox.Text, bookTitleTextbox.Text, bookAuthorTextbox.Text, loanPeriod, availability, null, status);
+
+                        MessageBox.Show("New book has been successfully added to database.", "Successful", MessageBoxButtons.OK, MessageBoxIcon.None);
+
+                        // Update data in the book list
+                        books = db.getAllBooksOrSearch(bookSearchTextbox.Text);
+                        updateBookList();
+                    }
+                    catch (SqlException)
+                    {
+                        MessageBox.Show("Failed to add new book to database. Book number '" + bookNumberTextbox.Text + "' already exist.", "Insert Process Failed!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+                    bookNumberTextbox.Text = "";
+                    bookTitleTextbox.Text = "";
+                    bookAuthorTextbox.Text = "";
+                    bookLoanPeriodTextbox.Text = "14";
+                    bookAvailabilityTextbox.Text = "Available";
+                    bookBorrowerIDTextbox.Text = "";
+                }
+            }
+            // Edit existing book
+            else
+            {
+                if (ValidateChildren(ValidationConstraints.Enabled))
+                {
+                    status = "Update";
+                    try
+                    {
+                        string oldBook = bookTitleTextbox.Text;
+
+                        db.insertUpdateDeleteBook(int.Parse(bookList.SelectedValue.ToString()), bookNumberTextbox.Text, bookTitleTextbox.Text, bookAuthorTextbox.Text, loanPeriod, availability, null, status);
+
+                        MessageBox.Show("Book with title '" + oldBook + "' has been successfully updated.", "Successful", MessageBoxButtons.OK, MessageBoxIcon.None);
+
+                        // Update data in the book list
+                        books = db.getAllBooksOrSearch(bookSearchTextbox.Text);
+                        updateBookList();
+                    }
+                    catch (SqlException)
+                    {
+                        MessageBox.Show("Failed to update a book to database. Book number '" + bookNumberTextbox.Text + "' already exist.", "Update Process Failed!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+
+        }
+
+        private void deleteBookButton_Click(object sender, EventArgs e)
+        {
+            bool availability = bookAvailabilityTextbox.Text == "Available" ? true : false;
+            int loanPeriod = int.Parse(bookLoanPeriodTextbox.Text);
+            string status = "Delete";
+            string deletedBook = bookTitleTextbox.Text;
+
+            try
+            {
+                db.insertUpdateDeleteBook(int.Parse(bookList.SelectedValue.ToString()), bookNumberTextbox.Text, bookTitleTextbox.Text, bookAuthorTextbox.Text, loanPeriod, availability, null, status);
+
+                MessageBox.Show("Book with title '" + deletedBook + "' has been successfully removed from database.", "Successful", MessageBoxButtons.OK, MessageBoxIcon.None);
+            }
+            catch (SqlException)
+            {
+                MessageBox.Show("Failed to delete the book to database. Book number '" + bookNumberTextbox.Text + "' still borrowed.", "Delete Process Failed!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            // Update data in the book list
+            books = db.getAllBooksOrSearch(bookSearchTextbox.Text);
+            updateBookList();
+        }
+
+        private void textBox_Validating(object sender, CancelEventArgs e)
+        {
+            // Validation for Book Number textbox
+            TextBox textbox = (TextBox)sender;
+            if (string.IsNullOrEmpty(textbox.Text))
+            {
+                e.Cancel = true;
+                textbox.Focus();
+                errorProvider.SetError(textbox, "This field must be filled!");
+            }
+            else
+            {
+                e.Cancel = false;
+                errorProvider.SetError(textbox, null);
+            }
+        }
+
+        private void bookToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            bookGroupBox.Visible = true;
+        }
+
+        private void memberToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            bookGroupBox.Visible = false;
         }
     }
 }

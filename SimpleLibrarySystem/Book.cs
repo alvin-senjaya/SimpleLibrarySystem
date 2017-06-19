@@ -14,15 +14,12 @@ namespace SimpleLibrarySystem
         public string Author { get; set; }
         public int LoanPeriod { get; set; }
         public bool Availability { get; set; }
-        public bool IsTextbook { get; set; }
         public string BorrowerID { get; set; }
         public string FullInfo
         {
             get
             {
-                string bookType;
-                bookType = IsTextbook == true ? "Textbook" : "Book";
-                return $"{ Title } ({ bookType })";
+                return $"{ Title } ({ Author })";
             }
         }
     }
