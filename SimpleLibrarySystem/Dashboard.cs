@@ -15,17 +15,37 @@ namespace SimpleLibrarySystem
     {
         DataAccess db = new DataAccess();
         List<Book> books = new List<Book>();
+        List<Member> members = new List<Member>();
         public Dashboard()
         {
             InitializeComponent();
+            bookGroupBox.Visible = true;
+            memberGroupBox.Visible = false;
+
+            // Book fields validation
             this.bookNumberTextbox.Validating += new System.ComponentModel.CancelEventHandler(this.textBox_Validating);
             this.bookTitleTextbox.Validating += new System.ComponentModel.CancelEventHandler(this.textBox_Validating);
             this.bookAuthorTextbox.Validating += new System.ComponentModel.CancelEventHandler(this.textBox_Validating);
+
+            // Member fields validation
+            this.memberNameTextbox.Validating += new System.ComponentModel.CancelEventHandler(this.textBox_Validating);
+            this.memberAddressTextbox.Validating += new System.ComponentModel.CancelEventHandler(this.textBox_Validating);
+            this.memberPhoneTextbox.Validating += new System.ComponentModel.CancelEventHandler(this.textBox_Validating);
+
             errorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink;
 
-            books = db.getAllBooksOrSearch(bookTitleTextbox.Text);
+            populateAllData();
+        }
+
+        private void populateAllData()
+        {
+            books = db.getAllBooksOrSearch(bookNumberTextbox.Text);
             updateBookList();
-            bookList.SelectedIndex = -1;
+            bookList.SelectedIndex = 0;
+
+            members = db.getAllMembersOrSearch(memberIDTextbox.Text);
+            updateMemberList();
+            memberList.SelectedIndex = 0;
         }
 
         private void updateBookList()
@@ -33,6 +53,13 @@ namespace SimpleLibrarySystem
             bookList.DataSource = books;
             bookList.DisplayMember = "FullInfo";
             bookList.ValueMember = "id";
+        }
+
+        private void updateMemberList()
+        {
+            memberList.DataSource = members;
+            memberList.DisplayMember = "Name";
+            memberList.ValueMember = "ID";
         }
 
         private void updateBookDetails(Book details)
@@ -45,7 +72,37 @@ namespace SimpleLibrarySystem
 
                 bookLoanPeriodTextbox.Text = details.LoanPeriod.ToString();
                 bookAvailabilityTextbox.Text = details.Availability == true ? "Available" : "Unavailable";
-                bookBorrowerIDTextbox.Text = details.BorrowerID == null ? "Available" : details.BorrowerID;
+
+                if (!details.Availability)
+                {
+                    BorrowTransaction borrowDetails = new BorrowTransaction();
+                    borrowDetails = db.getBorrowedBookDetailsByBookID(details.id);
+
+                    bookBorrowerIDTextbox.Text = borrowDetails.MemberID;
+                    bookBorrowDateTextbox.Text = borrowDetails.BorrowedDate.ToShortDateString();
+                }
+                else
+                {
+                    bookBorrowerIDTextbox.Text = "";
+                    bookBorrowDateTextbox.Text = "";
+                }
+            }
+        }
+
+        private void updateMemberDetails(Member details)
+        {
+            if (details != null)
+            {
+                memberIDTextbox.Text = details.ID;
+                memberNameTextbox.Text = details.Name;
+                memberAddressTextbox.Text = details.Address;
+                memberPhoneTextbox.Text = details.Phone;
+                memberFineTextbox.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:C2}", details.Fine);
+
+                List<BorrowTransaction> borrowDetails = new List<BorrowTransaction>();
+                borrowDetails = db.getBorrowedBookDetailsByMemberID(details.ID);
+
+                memberBorrowedBookDgv.DataSource = borrowDetails;
             }
         }
 
@@ -61,6 +118,16 @@ namespace SimpleLibrarySystem
 
                 bookDetails = db.getBookByID(bookID);
                 updateBookDetails(bookDetails);
+            }
+        }
+        private void memberList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (memberList.SelectedIndex >= 0)
+            {
+                Member memberDetails = new Member();
+
+                memberDetails = db.getMemberByID(memberList.SelectedValue.ToString());
+                updateMemberDetails(memberDetails);
             }
         }
 
@@ -106,6 +173,11 @@ namespace SimpleLibrarySystem
 
             books = db.getAllBooksOrSearch(bookSearchTextbox.Text);
             updateBookList();
+        }
+
+        private void memberSearchTextbox_TextChanged(object sender, EventArgs e)
+        {
+
         }
 
         private void insertNewBookButton_Click(object sender, EventArgs e)
@@ -155,7 +227,7 @@ namespace SimpleLibrarySystem
                     status = "Insert";
                     try
                     {
-                        db.insertUpdateDeleteBook(0, bookNumberTextbox.Text, bookTitleTextbox.Text, bookAuthorTextbox.Text, loanPeriod, availability, null, status);
+                        db.insertUpdateDeleteBook(0, bookNumberTextbox.Text, bookTitleTextbox.Text, bookAuthorTextbox.Text, loanPeriod, availability, null, null, status);
 
                         MessageBox.Show("New book has been successfully added to database.", "Successful", MessageBoxButtons.OK, MessageBoxIcon.None);
 
@@ -174,6 +246,7 @@ namespace SimpleLibrarySystem
                     bookLoanPeriodTextbox.Text = "14";
                     bookAvailabilityTextbox.Text = "Available";
                     bookBorrowerIDTextbox.Text = "";
+                    bookBorrowDateTextbox.Text = "";
                 }
             }
             // Edit existing book
@@ -186,7 +259,7 @@ namespace SimpleLibrarySystem
                     {
                         string oldBook = bookTitleTextbox.Text;
 
-                        db.insertUpdateDeleteBook(int.Parse(bookList.SelectedValue.ToString()), bookNumberTextbox.Text, bookTitleTextbox.Text, bookAuthorTextbox.Text, loanPeriod, availability, null, status);
+                        db.insertUpdateDeleteBook(int.Parse(bookList.SelectedValue.ToString()), bookNumberTextbox.Text, bookTitleTextbox.Text, bookAuthorTextbox.Text, loanPeriod, availability, null, null, status);
 
                         MessageBox.Show("Book with title '" + oldBook + "' has been successfully updated.", "Successful", MessageBoxButtons.OK, MessageBoxIcon.None);
 
@@ -210,20 +283,25 @@ namespace SimpleLibrarySystem
             string status = "Delete";
             string deletedBook = bookTitleTextbox.Text;
 
-            try
+            if (availability)
             {
-                db.insertUpdateDeleteBook(int.Parse(bookList.SelectedValue.ToString()), bookNumberTextbox.Text, bookTitleTextbox.Text, bookAuthorTextbox.Text, loanPeriod, availability, null, status);
+                try
+                {
+                    db.insertUpdateDeleteBook(int.Parse(bookList.SelectedValue.ToString()), bookNumberTextbox.Text, bookTitleTextbox.Text, bookAuthorTextbox.Text, loanPeriod, availability, null, null, status);
 
-                MessageBox.Show("Book with title '" + deletedBook + "' has been successfully removed from database.", "Successful", MessageBoxButtons.OK, MessageBoxIcon.None);
-            }
-            catch (SqlException)
-            {
-                MessageBox.Show("Failed to delete the book to database. Book number '" + bookNumberTextbox.Text + "' still borrowed.", "Delete Process Failed!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+                    MessageBox.Show("Book with title '" + deletedBook + "' has been successfully removed from database.", "Successful", MessageBoxButtons.OK, MessageBoxIcon.None);
+                }
+                catch (SqlException)
+                {
+                    MessageBox.Show("Failed to delete the book from database. Book number '" + bookNumberTextbox.Text + "' still borrowed.", "Delete Process Failed!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
 
-            // Update data in the book list
-            books = db.getAllBooksOrSearch(bookSearchTextbox.Text);
-            updateBookList();
+                // Update data in the book list
+                books = db.getAllBooksOrSearch(bookSearchTextbox.Text);
+                updateBookList();
+            }
+            else
+                MessageBox.Show("Failed to delete the book from database. Book number '" + bookNumberTextbox.Text + "' still borrowed.", "Delete Process Failed!", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void textBox_Validating(object sender, CancelEventArgs e)
@@ -246,11 +324,13 @@ namespace SimpleLibrarySystem
         private void bookToolStripMenuItem_Click(object sender, EventArgs e)
         {
             bookGroupBox.Visible = true;
+            memberGroupBox.Visible = false;
         }
 
         private void memberToolStripMenuItem_Click(object sender, EventArgs e)
         {
             bookGroupBox.Visible = false;
+            memberGroupBox.Visible = true;
         }
     }
 }
