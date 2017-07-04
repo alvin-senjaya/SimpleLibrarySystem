@@ -68,7 +68,15 @@ namespace SimpleLibrarySystem
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(Helper.ConnectionString("SimpleLibrarySystem")))
             {
-                connection.Execute("dbo.Member_AddEditOrDeleteMember @ID, @Name, @Address, @Phone, @Fine, @Status", new { ID = id, Name = name, Address = address, Phone = phone, Fine = fine, Status = memberstatus Status = status });
+                connection.Execute("dbo.Member_AddEditOrDeleteMember @ID, @Name, @Address, @Phone, @Fine, @MemberStatus, @Status", new { ID = id, Name = name, Address = address, Phone = phone, Fine = fine, MemberStatus = memberstatus, Status = status });
+            }
+        }
+
+        public void activeDeactiveMember(string id, string status)
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(Helper.ConnectionString("SimpleLibrarySystem")))
+            {
+                connection.Execute("dbo.Member_ActiveOrDeactiveMember @ID, @CurrentStatus", new { ID = id, CurrentStatus = status });
             }
         }
     }

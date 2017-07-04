@@ -13,5 +13,6 @@ namespace SimpleLibrarySystem
         public string Address { get; set; }
         public string Phone { get; set; }
         public double Fine { get; set; }
+        public bool MemberStatus { get; set; }
     }
 }

@@ -87,6 +87,7 @@ namespace SimpleLibrarySystem
                 memberAddressTextbox.Text = details.Address;
                 memberPhoneTextbox.Text = details.Phone;
                 memberFineTextbox.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:C2}", details.Fine);
+                memberStatusTextbox.Text = details.MemberStatus == true ? "Active" : "Not Active";
 
                 List<BorrowTransaction> borrowDetails = new List<BorrowTransaction>();
                 borrowDetails = db.getBorrowedBookDetailsByMemberID(details.ID);
@@ -193,6 +194,7 @@ namespace SimpleLibrarySystem
             memberPhoneTextbox.ReadOnly = false;
 
             memberFineTextbox.Text = "0";
+            memberStatusTextbox.Text = "Active";
 
             memberBorrowedBookDgv.DataSource = "";
 
@@ -408,7 +410,20 @@ namespace SimpleLibrarySystem
 
         private void memberAvtiveOrDeactiveButton_Click(object sender, EventArgs e)
         {
+            try
+            {
+                db.activeDeactiveMember(memberIDTextbox.Text, memberStatusTextbox.Text);
 
+                MessageBox.Show("Member with ID '" + memberIDTextbox.Text + "' has been successfully updated.", "Successful", MessageBoxButtons.OK, MessageBoxIcon.None);
+
+                // Update data in the book list
+                members = db.getAllMembersOrSearch(memberSearchTextbox.Text);
+                updateMemberList();
+            }
+            catch (SqlException)
+            {
+                MessageBox.Show("Failed to update a member status.", "Update Process Failed!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
