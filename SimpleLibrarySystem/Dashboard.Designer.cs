@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.menu = new System.Windows.Forms.MenuStrip();
             this.bookToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.memberToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bookList = new System.Windows.Forms.ListBox();
             this.bookGroupBox = new System.Windows.Forms.GroupBox();
             this.deleteBookButton = new System.Windows.Forms.Button();
@@ -39,6 +40,8 @@
             this.bookSearchTextbox = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.bookDetailsGroupBox = new System.Windows.Forms.GroupBox();
+            this.bookBorrowDateTextbox = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.bookAddOrUpdateButton = new System.Windows.Forms.Button();
             this.bookNumberTextbox = new System.Windows.Forms.TextBox();
             this.bookBorrowerIDTextbox = new System.Windows.Forms.TextBox();
@@ -54,11 +57,37 @@
             this.bookTitleTextbox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-            this.memberToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.memberList = new System.Windows.Forms.ListBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.memberPhoneTextbox = new System.Windows.Forms.MaskedTextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.memberBorrowedBookDgv = new System.Windows.Forms.DataGridView();
+            this.memberAddOrUpdateButton = new System.Windows.Forms.Button();
+            this.memberIDTextbox = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.memberFineTextbox = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.memberAddressTextbox = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.memberNameTextbox = new System.Windows.Forms.TextBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.memberSearchTextbox = new System.Windows.Forms.TextBox();
+            this.memberAddButton = new System.Windows.Forms.Button();
+            this.memberEditButton = new System.Windows.Forms.Button();
+            this.memberAvtiveOrDeactiveButton = new System.Windows.Forms.Button();
+            this.memberGroupBox = new System.Windows.Forms.GroupBox();
+            this.memberStatusTextbox = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.menu.SuspendLayout();
             this.bookGroupBox.SuspendLayout();
             this.bookDetailsGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.memberBorrowedBookDgv)).BeginInit();
+            this.memberGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // menu
@@ -80,6 +109,13 @@
             this.bookToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
             this.bookToolStripMenuItem.Text = "Book";
             this.bookToolStripMenuItem.Click += new System.EventHandler(this.bookToolStripMenuItem_Click);
+            // 
+            // memberToolStripMenuItem
+            // 
+            this.memberToolStripMenuItem.Name = "memberToolStripMenuItem";
+            this.memberToolStripMenuItem.Size = new System.Drawing.Size(77, 24);
+            this.memberToolStripMenuItem.Text = "Member";
+            this.memberToolStripMenuItem.Click += new System.EventHandler(this.memberToolStripMenuItem_Click);
             // 
             // bookList
             // 
@@ -165,6 +201,8 @@
             this.bookDetailsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.bookDetailsGroupBox.Controls.Add(this.bookBorrowDateTextbox);
+            this.bookDetailsGroupBox.Controls.Add(this.label9);
             this.bookDetailsGroupBox.Controls.Add(this.bookAddOrUpdateButton);
             this.bookDetailsGroupBox.Controls.Add(this.bookNumberTextbox);
             this.bookDetailsGroupBox.Controls.Add(this.bookBorrowerIDTextbox);
@@ -186,9 +224,26 @@
             this.bookDetailsGroupBox.TabStop = false;
             this.bookDetailsGroupBox.Text = "Book Details";
             // 
+            // bookBorrowDateTextbox
+            // 
+            this.bookBorrowDateTextbox.Location = new System.Drawing.Point(163, 375);
+            this.bookBorrowDateTextbox.Name = "bookBorrowDateTextbox";
+            this.bookBorrowDateTextbox.ReadOnly = true;
+            this.bookBorrowDateTextbox.Size = new System.Drawing.Size(178, 30);
+            this.bookBorrowDateTextbox.TabIndex = 18;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(22, 378);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(130, 25);
+            this.label9.TabIndex = 17;
+            this.label9.Text = "Borrow Date :";
+            // 
             // bookAddOrUpdateButton
             // 
-            this.bookAddOrUpdateButton.Location = new System.Drawing.Point(163, 375);
+            this.bookAddOrUpdateButton.Location = new System.Drawing.Point(163, 411);
             this.bookAddOrUpdateButton.Name = "bookAddOrUpdateButton";
             this.bookAddOrUpdateButton.Size = new System.Drawing.Size(81, 47);
             this.bookAddOrUpdateButton.TabIndex = 16;
@@ -271,7 +326,7 @@
             this.label3.Location = new System.Drawing.Point(71, 176);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(81, 25);
-            this.label3.TabIndex = 4;
+            this.label3.TabIndex = 1;
             this.label3.Text = "Author :";
             // 
             // bookAuthorTextbox
@@ -281,7 +336,7 @@
             this.bookAuthorTextbox.Name = "bookAuthorTextbox";
             this.bookAuthorTextbox.ReadOnly = true;
             this.bookAuthorTextbox.Size = new System.Drawing.Size(359, 88);
-            this.bookAuthorTextbox.TabIndex = 5;
+            this.bookAuthorTextbox.TabIndex = 2;
             // 
             // label2
             // 
@@ -289,7 +344,7 @@
             this.label2.Location = new System.Drawing.Point(92, 78);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(60, 25);
-            this.label2.TabIndex = 2;
+            this.label2.TabIndex = 0;
             this.label2.Text = "Title :";
             // 
             // bookTitleTextbox
@@ -314,18 +369,254 @@
             // 
             this.errorProvider.ContainerControl = this;
             // 
-            // memberToolStripMenuItem
+            // memberList
             // 
-            this.memberToolStripMenuItem.Name = "memberToolStripMenuItem";
-            this.memberToolStripMenuItem.Size = new System.Drawing.Size(77, 24);
-            this.memberToolStripMenuItem.Text = "Member";
-            this.memberToolStripMenuItem.Click += new System.EventHandler(this.memberToolStripMenuItem_Click);
+            this.memberList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.memberList.FormattingEnabled = true;
+            this.memberList.HorizontalScrollbar = true;
+            this.memberList.ItemHeight = 25;
+            this.memberList.Location = new System.Drawing.Point(7, 131);
+            this.memberList.Name = "memberList";
+            this.memberList.Size = new System.Drawing.Size(417, 479);
+            this.memberList.TabIndex = 5;
+            this.memberList.SelectedIndexChanged += new System.EventHandler(this.memberList_SelectedIndexChanged);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.memberPhoneTextbox);
+            this.groupBox2.Controls.Add(this.groupBox1);
+            this.groupBox2.Controls.Add(this.memberAddOrUpdateButton);
+            this.groupBox2.Controls.Add(this.memberIDTextbox);
+            this.groupBox2.Controls.Add(this.label12);
+            this.groupBox2.Controls.Add(this.label11);
+            this.groupBox2.Controls.Add(this.label15);
+            this.groupBox2.Controls.Add(this.memberStatusTextbox);
+            this.groupBox2.Controls.Add(this.memberFineTextbox);
+            this.groupBox2.Controls.Add(this.label16);
+            this.groupBox2.Controls.Add(this.memberAddressTextbox);
+            this.groupBox2.Controls.Add(this.label17);
+            this.groupBox2.Controls.Add(this.memberNameTextbox);
+            this.groupBox2.Controls.Add(this.label18);
+            this.groupBox2.Location = new System.Drawing.Point(430, 31);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(1280, 579);
+            this.groupBox2.TabIndex = 6;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Book Details";
+            // 
+            // memberPhoneTextbox
+            // 
+            this.memberPhoneTextbox.Location = new System.Drawing.Point(163, 205);
+            this.memberPhoneTextbox.Mask = "0000 000 000";
+            this.memberPhoneTextbox.Name = "memberPhoneTextbox";
+            this.memberPhoneTextbox.ReadOnly = true;
+            this.memberPhoneTextbox.Size = new System.Drawing.Size(214, 30);
+            this.memberPhoneTextbox.TabIndex = 3;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.memberBorrowedBookDgv);
+            this.groupBox1.Location = new System.Drawing.Point(15, 334);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(778, 186);
+            this.groupBox1.TabIndex = 17;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Borrrowed Book";
+            // 
+            // memberBorrowedBookDgv
+            // 
+            this.memberBorrowedBookDgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.memberBorrowedBookDgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.memberBorrowedBookDgv.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.memberBorrowedBookDgv.Location = new System.Drawing.Point(3, 26);
+            this.memberBorrowedBookDgv.Name = "memberBorrowedBookDgv";
+            this.memberBorrowedBookDgv.ReadOnly = true;
+            this.memberBorrowedBookDgv.RowTemplate.Height = 24;
+            this.memberBorrowedBookDgv.Size = new System.Drawing.Size(772, 157);
+            this.memberBorrowedBookDgv.TabIndex = 0;
+            // 
+            // memberAddOrUpdateButton
+            // 
+            this.memberAddOrUpdateButton.Location = new System.Drawing.Point(18, 523);
+            this.memberAddOrUpdateButton.Name = "memberAddOrUpdateButton";
+            this.memberAddOrUpdateButton.Size = new System.Drawing.Size(81, 47);
+            this.memberAddOrUpdateButton.TabIndex = 5;
+            this.memberAddOrUpdateButton.Text = "Add";
+            this.memberAddOrUpdateButton.UseVisualStyleBackColor = true;
+            this.memberAddOrUpdateButton.Visible = false;
+            this.memberAddOrUpdateButton.Click += new System.EventHandler(this.memberAddOrUpdateButton_Click);
+            // 
+            // memberIDTextbox
+            // 
+            this.memberIDTextbox.Location = new System.Drawing.Point(163, 39);
+            this.memberIDTextbox.Name = "memberIDTextbox";
+            this.memberIDTextbox.ReadOnly = true;
+            this.memberIDTextbox.Size = new System.Drawing.Size(178, 30);
+            this.memberIDTextbox.TabIndex = 0;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(96, 244);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(61, 25);
+            this.label11.TabIndex = 7;
+            this.label11.Text = "Fine :";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(77, 208);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(80, 25);
+            this.label15.TabIndex = 5;
+            this.label15.Text = "Phone :";
+            // 
+            // memberFineTextbox
+            // 
+            this.memberFineTextbox.Location = new System.Drawing.Point(163, 241);
+            this.memberFineTextbox.Name = "memberFineTextbox";
+            this.memberFineTextbox.ReadOnly = true;
+            this.memberFineTextbox.Size = new System.Drawing.Size(214, 30);
+            this.memberFineTextbox.TabIndex = 4;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(61, 114);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(96, 25);
+            this.label16.TabIndex = 3;
+            this.label16.Text = "Address :";
+            // 
+            // memberAddressTextbox
+            // 
+            this.memberAddressTextbox.Location = new System.Drawing.Point(163, 111);
+            this.memberAddressTextbox.Multiline = true;
+            this.memberAddressTextbox.Name = "memberAddressTextbox";
+            this.memberAddressTextbox.ReadOnly = true;
+            this.memberAddressTextbox.Size = new System.Drawing.Size(359, 88);
+            this.memberAddressTextbox.TabIndex = 2;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(82, 78);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(75, 25);
+            this.label17.TabIndex = 2;
+            this.label17.Text = "Name :";
+            // 
+            // memberNameTextbox
+            // 
+            this.memberNameTextbox.Location = new System.Drawing.Point(163, 75);
+            this.memberNameTextbox.Name = "memberNameTextbox";
+            this.memberNameTextbox.ReadOnly = true;
+            this.memberNameTextbox.Size = new System.Drawing.Size(359, 30);
+            this.memberNameTextbox.TabIndex = 1;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(38, 42);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(119, 25);
+            this.label18.TabIndex = 0;
+            this.label18.Text = "Member ID :";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(7, 45);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(86, 25);
+            this.label10.TabIndex = 0;
+            this.label10.Text = "Search :";
+            // 
+            // memberSearchTextbox
+            // 
+            this.memberSearchTextbox.Location = new System.Drawing.Point(99, 42);
+            this.memberSearchTextbox.Name = "memberSearchTextbox";
+            this.memberSearchTextbox.Size = new System.Drawing.Size(325, 30);
+            this.memberSearchTextbox.TabIndex = 1;
+            this.memberSearchTextbox.TextChanged += new System.EventHandler(this.memberSearchTextbox_TextChanged);
+            // 
+            // memberAddButton
+            // 
+            this.memberAddButton.Location = new System.Drawing.Point(12, 78);
+            this.memberAddButton.Name = "memberAddButton";
+            this.memberAddButton.Size = new System.Drawing.Size(81, 47);
+            this.memberAddButton.TabIndex = 2;
+            this.memberAddButton.Text = "New";
+            this.memberAddButton.UseVisualStyleBackColor = true;
+            this.memberAddButton.Click += new System.EventHandler(this.memberAddButton_Click);
+            // 
+            // memberEditButton
+            // 
+            this.memberEditButton.Location = new System.Drawing.Point(99, 78);
+            this.memberEditButton.Name = "memberEditButton";
+            this.memberEditButton.Size = new System.Drawing.Size(81, 47);
+            this.memberEditButton.TabIndex = 3;
+            this.memberEditButton.Text = "Edit";
+            this.memberEditButton.UseVisualStyleBackColor = true;
+            this.memberEditButton.Click += new System.EventHandler(this.memberEditButton_Click);
+            // 
+            // memberAvtiveOrDeactiveButton
+            // 
+            this.memberAvtiveOrDeactiveButton.Location = new System.Drawing.Point(186, 78);
+            this.memberAvtiveOrDeactiveButton.Name = "memberAvtiveOrDeactiveButton";
+            this.memberAvtiveOrDeactiveButton.Size = new System.Drawing.Size(169, 47);
+            this.memberAvtiveOrDeactiveButton.TabIndex = 4;
+            this.memberAvtiveOrDeactiveButton.Text = "Active/Deactive";
+            this.memberAvtiveOrDeactiveButton.UseVisualStyleBackColor = true;
+            this.memberAvtiveOrDeactiveButton.Click += new System.EventHandler(this.memberAvtiveOrDeactiveButton_Click);
+            // 
+            // memberGroupBox
+            // 
+            this.memberGroupBox.Controls.Add(this.memberAvtiveOrDeactiveButton);
+            this.memberGroupBox.Controls.Add(this.memberEditButton);
+            this.memberGroupBox.Controls.Add(this.memberAddButton);
+            this.memberGroupBox.Controls.Add(this.memberSearchTextbox);
+            this.memberGroupBox.Controls.Add(this.label10);
+            this.memberGroupBox.Controls.Add(this.groupBox2);
+            this.memberGroupBox.Controls.Add(this.memberList);
+            this.memberGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.memberGroupBox.Location = new System.Drawing.Point(0, 30);
+            this.memberGroupBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.memberGroupBox.Name = "memberGroupBox";
+            this.memberGroupBox.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.memberGroupBox.Size = new System.Drawing.Size(1722, 618);
+            this.memberGroupBox.TabIndex = 0;
+            this.memberGroupBox.TabStop = false;
+            this.memberGroupBox.Text = "Member";
+            // 
+            // memberStatusTextbox
+            // 
+            this.memberStatusTextbox.Location = new System.Drawing.Point(163, 277);
+            this.memberStatusTextbox.Name = "memberStatusTextbox";
+            this.memberStatusTextbox.ReadOnly = true;
+            this.memberStatusTextbox.Size = new System.Drawing.Size(214, 30);
+            this.memberStatusTextbox.TabIndex = 4;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(78, 280);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(79, 25);
+            this.label12.TabIndex = 7;
+            this.label12.Text = "Status :";
             // 
             // Dashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1722, 648);
+            this.Controls.Add(this.memberGroupBox);
             this.Controls.Add(this.bookGroupBox);
             this.Controls.Add(this.menu);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -343,6 +634,12 @@
             this.bookDetailsGroupBox.ResumeLayout(false);
             this.bookDetailsGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.memberBorrowedBookDgv)).EndInit();
+            this.memberGroupBox.ResumeLayout(false);
+            this.memberGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -376,6 +673,31 @@
         private System.Windows.Forms.Button bookAddOrUpdateButton;
         private System.Windows.Forms.ErrorProvider errorProvider;
         private System.Windows.Forms.ToolStripMenuItem memberToolStripMenuItem;
+        private System.Windows.Forms.TextBox bookBorrowDateTextbox;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.GroupBox memberGroupBox;
+        private System.Windows.Forms.Button memberAvtiveOrDeactiveButton;
+        private System.Windows.Forms.Button memberEditButton;
+        private System.Windows.Forms.Button memberAddButton;
+        private System.Windows.Forms.TextBox memberSearchTextbox;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.DataGridView memberBorrowedBookDgv;
+        private System.Windows.Forms.Button memberAddOrUpdateButton;
+        private System.Windows.Forms.TextBox memberIDTextbox;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox memberFineTextbox;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TextBox memberAddressTextbox;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TextBox memberNameTextbox;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.ListBox memberList;
+        private System.Windows.Forms.MaskedTextBox memberPhoneTextbox;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox memberStatusTextbox;
     }
 }
 
