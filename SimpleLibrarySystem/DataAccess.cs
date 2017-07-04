@@ -56,11 +56,19 @@ namespace SimpleLibrarySystem
             }
         }
 
-        public void insertUpdateDeleteBook(int ID, string bookNumber, string title, string author, int loanPeriod, bool availability, string borrowerID, DateTime? borrowedDate, string status)
+        public void insertUpdateDeleteBook(int ID, string bookNumber, string title, string author, int loanPeriod, bool availability, string status)
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(Helper.ConnectionString("SimpleLibrarySystem")))
             {
-                connection.Execute("dbo.Book_AddEditDeleteBook @id, @BookNumber, @Title, @Author, @LoanPeriod, @Availability, @IsTextbook, @BorrowerID, @BorrowedDate, @Status", new { id = ID, BookNumber = bookNumber, Title = title, Author = author, LoanPeriod = loanPeriod, Availability = availability, BorrowerID = borrowerID, BorrowedDate = borrowedDate, Status = status });
+                connection.Execute("dbo.Book_AddEditDeleteBook @id, @BookNumber, @Title, @Author, @LoanPeriod, @Availability, @Status", new { id = ID, BookNumber = bookNumber, Title = title, Author = author, LoanPeriod = loanPeriod, Availability = availability, Status = status });
+            }
+        }
+
+        public void insertUpdateDeleteMember(string id, string name, string address, string phone, double fine, bool memberstatus, string status)
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(Helper.ConnectionString("SimpleLibrarySystem")))
+            {
+                connection.Execute("dbo.Member_AddEditOrDeleteMember @ID, @Name, @Address, @Phone, @Fine, @Status", new { ID = id, Name = name, Address = address, Phone = phone, Fine = fine, Status = memberstatus Status = status });
             }
         }
     }
