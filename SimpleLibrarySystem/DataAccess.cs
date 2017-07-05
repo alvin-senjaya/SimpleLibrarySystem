@@ -79,5 +79,13 @@ namespace SimpleLibrarySystem
                 connection.Execute("dbo.Member_ActiveOrDeactiveMember @ID, @CurrentStatus", new { ID = id, CurrentStatus = status });
             }
         }
+
+        public void borrowBook(string memberID, int bookID, DateTime borrowedDate, DateTime dueDate, bool isreturned)
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(Helper.ConnectionString("SimpleLibrarySystem")))
+            {
+                connection.Execute("dbo.BorrowTransaction_BorrowBook @MemberID, @BookID, @BorrowedDate, @DueDate, @isReturned", new { MemberID = memberID, BookID = bookID, BorrowedDate = borrowedDate, DueDate = dueDate, isReturned =  isreturned});
+            }
+        }
     }
 }

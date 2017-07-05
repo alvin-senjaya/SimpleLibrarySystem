@@ -22,6 +22,7 @@ namespace SimpleLibrarySystem
             InitializeComponent();
             bookGroupBox.Visible = true;
             memberGroupBox.Visible = false;
+            BorrowBookGroupbox.Visible = false;
 
             populateAllData();
         }
@@ -42,6 +43,10 @@ namespace SimpleLibrarySystem
             bookList.DataSource = books;
             bookList.DisplayMember = "FullInfo";
             bookList.ValueMember = "id";
+
+            borrowBookList.DataSource = books;
+            borrowBookList.DisplayMember = "FullInfo";
+            borrowBookList.ValueMember = "id";
         }
 
         private void updateMemberList()
@@ -49,6 +54,10 @@ namespace SimpleLibrarySystem
             memberList.DataSource = members;
             memberList.DisplayMember = "Name";
             memberList.ValueMember = "ID";
+
+            borrowMemberList.DataSource = members;
+            borrowMemberList.DisplayMember = "Name";
+            borrowMemberList.ValueMember = "ID";
         }
 
         private void updateBookDetails(Book details)
@@ -344,12 +353,23 @@ namespace SimpleLibrarySystem
         {
             bookGroupBox.Visible = true;
             memberGroupBox.Visible = false;
+            BorrowBookGroupbox.Visible = false;
         }
 
         private void memberToolStripMenuItem_Click(object sender, EventArgs e)
         {
             bookGroupBox.Visible = false;
             memberGroupBox.Visible = true;
+            BorrowBookGroupbox.Visible = false;
+        }
+        private void borrowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            bookGroupBox.Visible = false;
+            memberGroupBox.Visible = false;
+            BorrowBookGroupbox.Visible = true;
+
+            borrowBorrowedDateTextbox.Text = DateTime.Now.ToShortDateString();
+            borrowDueDateTextbox.Text = DateTime.Now.AddDays(14).ToShortDateString();
         }
 
         private void memberAddOrUpdateButton_Click(object sender, EventArgs e)
@@ -425,5 +445,81 @@ namespace SimpleLibrarySystem
                 MessageBox.Show("Failed to update a member status.", "Update Process Failed!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void borrowSearchText_TextChanged(object sender, EventArgs e)
+        {
+            // Search for book
+            if (bookSearchRadio.Checked)
+            {
+                books = db.getAllBooksOrSearch(borrowSearchText.Text);
+                updateBookList();
+            }
+            // Search for member
+            else
+            {
+                members = db.getAllMembersOrSearch(borrowSearchText.Text);
+                updateMemberList();
+            }
+        }
+
+        private void borrowBookList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (bookList.SelectedIndex >= 0)
+            {
+                Book bookDetails = new Book();
+                int bookID;
+                int.TryParse(bookList.SelectedValue.ToString(), out bookID);
+
+                bookDetails = db.getBookByID(bookID);
+                borrowBookNumberTextbox.Text = bookDetails.BookNumber;
+                borrowBookTitleTextbox.Text = bookDetails.Title;
+                borrowAvailablityTextbox.Text = bookDetails.Availability == true ? "Available" : "Unavailable";
+            }
+        }
+
+        private void borrowMemberList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (memberList.SelectedIndex >= 0)
+            {
+                Member memberDetails = new Member();
+
+                memberDetails = db.getMemberByID(memberList.SelectedValue.ToString());
+                borrowMemberIDTextbox.Text = memberDetails.ID;
+                borrowMemberNameTextbox.Text = memberDetails.Name;
+                borrowMemberFineTextbox.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:C2}", memberDetails.Fine);
+            }
+        }
+
+        private void borrowButton_Click(object sender, EventArgs e)
+        {
+            double fine = double.Parse(borrowMemberFineTextbox.Text, NumberStyles.Currency);
+            if (fine > 0)
+            {
+                MessageBox.Show("Cannot borrow book. Member must pay the fine first before borrowing another book.", "Borrow Process Failed!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else if (borrowAvailablityTextbox.Text == "Unavailable")
+            {
+                MessageBox.Show("Cannot borrow book. Book is not available.", "Borrow Process Failed!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                try
+                { 
+                    db.borrowBook(borrowMemberIDTextbox.Text, int.Parse(borrowBookList.SelectedValue.ToString()), DateTime.Parse(borrowBorrowedDateTextbox.Text), DateTime.Parse(borrowDueDateTextbox.Text), false);
+
+                    MessageBox.Show("Member with ID '" + borrowMemberIDTextbox.Text + "' has borrowed a book number '" + borrowBookNumberTextbox.Text +"'.", "Successful", MessageBoxButtons.OK, MessageBoxIcon.None);
+
+                    // Update data in the book list
+                    members = db.getAllMembersOrSearch(memberSearchTextbox.Text);
+                    updateMemberList();
+                }
+                catch (SqlException)
+                {
+                    MessageBox.Show("Failed to borrow a book.", "Borrow Process Failed!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
     }
 }
+
+    
