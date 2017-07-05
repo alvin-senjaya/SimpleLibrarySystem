@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.menu = new System.Windows.Forms.MenuStrip();
             this.bookToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.memberToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.borrowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bookList = new System.Windows.Forms.ListBox();
             this.bookGroupBox = new System.Windows.Forms.GroupBox();
             this.deleteBookButton = new System.Windows.Forms.Button();
@@ -56,7 +56,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.bookTitleTextbox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.memberList = new System.Windows.Forms.ListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.memberPhoneTextbox = new System.Windows.Forms.MaskedTextBox();
@@ -64,8 +63,10 @@
             this.memberBorrowedBookDgv = new System.Windows.Forms.DataGridView();
             this.memberAddOrUpdateButton = new System.Windows.Forms.Button();
             this.memberIDTextbox = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
+            this.memberStatusTextbox = new System.Windows.Forms.TextBox();
             this.memberFineTextbox = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
             this.memberAddressTextbox = new System.Windows.Forms.TextBox();
@@ -78,16 +79,40 @@
             this.memberEditButton = new System.Windows.Forms.Button();
             this.memberAvtiveOrDeactiveButton = new System.Windows.Forms.Button();
             this.memberGroupBox = new System.Windows.Forms.GroupBox();
-            this.memberStatusTextbox = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
+            this.BorrowBookGroupbox = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.borrowButton = new System.Windows.Forms.Button();
+            this.memberSearchRadio = new System.Windows.Forms.RadioButton();
+            this.bookSearchRadio = new System.Windows.Forms.RadioButton();
+            this.borrowSearchText = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.borrowMemberList = new System.Windows.Forms.ListBox();
+            this.borrowBookList = new System.Windows.Forms.ListBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.borrowBookNumberTextbox = new System.Windows.Forms.TextBox();
+            this.borrowBookTitleTextbox = new System.Windows.Forms.TextBox();
+            this.borrowMemberIDTextbox = new System.Windows.Forms.TextBox();
+            this.borrowMemberNameTextbox = new System.Windows.Forms.TextBox();
+            this.borrowBorrowedDateTextbox = new System.Windows.Forms.TextBox();
+            this.borrowDueDateTextbox = new System.Windows.Forms.TextBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.borrowMemberFineTextbox = new System.Windows.Forms.TextBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.borrowAvailablityTextbox = new System.Windows.Forms.TextBox();
             this.menu.SuspendLayout();
             this.bookGroupBox.SuspendLayout();
             this.bookDetailsGroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.memberBorrowedBookDgv)).BeginInit();
             this.memberGroupBox.SuspendLayout();
+            this.BorrowBookGroupbox.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // menu
@@ -95,7 +120,8 @@
             this.menu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.bookToolStripMenuItem,
-            this.memberToolStripMenuItem});
+            this.memberToolStripMenuItem,
+            this.borrowToolStripMenuItem});
             this.menu.Location = new System.Drawing.Point(0, 0);
             this.menu.Name = "menu";
             this.menu.Padding = new System.Windows.Forms.Padding(9, 3, 0, 3);
@@ -117,6 +143,13 @@
             this.memberToolStripMenuItem.Text = "Member";
             this.memberToolStripMenuItem.Click += new System.EventHandler(this.memberToolStripMenuItem_Click);
             // 
+            // borrowToolStripMenuItem
+            // 
+            this.borrowToolStripMenuItem.Name = "borrowToolStripMenuItem";
+            this.borrowToolStripMenuItem.Size = new System.Drawing.Size(69, 24);
+            this.borrowToolStripMenuItem.Text = "Borrow";
+            this.borrowToolStripMenuItem.Click += new System.EventHandler(this.borrowToolStripMenuItem_Click);
+            // 
             // bookList
             // 
             this.bookList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -126,7 +159,7 @@
             this.bookList.ItemHeight = 25;
             this.bookList.Location = new System.Drawing.Point(7, 131);
             this.bookList.Name = "bookList";
-            this.bookList.Size = new System.Drawing.Size(417, 479);
+            this.bookList.Size = new System.Drawing.Size(417, 454);
             this.bookList.TabIndex = 5;
             this.bookList.SelectedIndexChanged += new System.EventHandler(this.bookList_SelectedIndexChanged);
             // 
@@ -365,10 +398,6 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Book Number :";
             // 
-            // errorProvider
-            // 
-            this.errorProvider.ContainerControl = this;
-            // 
             // memberList
             // 
             this.memberList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -378,7 +407,7 @@
             this.memberList.ItemHeight = 25;
             this.memberList.Location = new System.Drawing.Point(7, 131);
             this.memberList.Name = "memberList";
-            this.memberList.Size = new System.Drawing.Size(417, 479);
+            this.memberList.Size = new System.Drawing.Size(417, 454);
             this.memberList.TabIndex = 5;
             this.memberList.SelectedIndexChanged += new System.EventHandler(this.memberList_SelectedIndexChanged);
             // 
@@ -458,6 +487,15 @@
             this.memberIDTextbox.Size = new System.Drawing.Size(178, 30);
             this.memberIDTextbox.TabIndex = 0;
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(78, 280);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(79, 25);
+            this.label12.TabIndex = 7;
+            this.label12.Text = "Status :";
+            // 
             // label11
             // 
             this.label11.AutoSize = true;
@@ -475,6 +513,14 @@
             this.label15.Size = new System.Drawing.Size(80, 25);
             this.label15.TabIndex = 5;
             this.label15.Text = "Phone :";
+            // 
+            // memberStatusTextbox
+            // 
+            this.memberStatusTextbox.Location = new System.Drawing.Point(163, 277);
+            this.memberStatusTextbox.Name = "memberStatusTextbox";
+            this.memberStatusTextbox.ReadOnly = true;
+            this.memberStatusTextbox.Size = new System.Drawing.Size(214, 30);
+            this.memberStatusTextbox.TabIndex = 4;
             // 
             // memberFineTextbox
             // 
@@ -594,28 +640,271 @@
             this.memberGroupBox.TabStop = false;
             this.memberGroupBox.Text = "Member";
             // 
-            // memberStatusTextbox
+            // BorrowBookGroupbox
             // 
-            this.memberStatusTextbox.Location = new System.Drawing.Point(163, 277);
-            this.memberStatusTextbox.Name = "memberStatusTextbox";
-            this.memberStatusTextbox.ReadOnly = true;
-            this.memberStatusTextbox.Size = new System.Drawing.Size(214, 30);
-            this.memberStatusTextbox.TabIndex = 4;
+            this.BorrowBookGroupbox.Controls.Add(this.groupBox3);
+            this.BorrowBookGroupbox.Controls.Add(this.borrowButton);
+            this.BorrowBookGroupbox.Controls.Add(this.memberSearchRadio);
+            this.BorrowBookGroupbox.Controls.Add(this.bookSearchRadio);
+            this.BorrowBookGroupbox.Controls.Add(this.borrowSearchText);
+            this.BorrowBookGroupbox.Controls.Add(this.label13);
+            this.BorrowBookGroupbox.Controls.Add(this.borrowMemberList);
+            this.BorrowBookGroupbox.Controls.Add(this.borrowBookList);
+            this.BorrowBookGroupbox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.BorrowBookGroupbox.Location = new System.Drawing.Point(0, 30);
+            this.BorrowBookGroupbox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.BorrowBookGroupbox.Name = "BorrowBookGroupbox";
+            this.BorrowBookGroupbox.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.BorrowBookGroupbox.Size = new System.Drawing.Size(1722, 618);
+            this.BorrowBookGroupbox.TabIndex = 1;
+            this.BorrowBookGroupbox.TabStop = false;
+            this.BorrowBookGroupbox.Text = "Borrow Book";
             // 
-            // label12
+            // groupBox3
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(78, 280);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(79, 25);
-            this.label12.TabIndex = 7;
-            this.label12.Text = "Status :";
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Controls.Add(this.borrowAvailablityTextbox);
+            this.groupBox3.Controls.Add(this.borrowMemberFineTextbox);
+            this.groupBox3.Controls.Add(this.borrowDueDateTextbox);
+            this.groupBox3.Controls.Add(this.borrowBorrowedDateTextbox);
+            this.groupBox3.Controls.Add(this.borrowMemberNameTextbox);
+            this.groupBox3.Controls.Add(this.borrowMemberIDTextbox);
+            this.groupBox3.Controls.Add(this.label25);
+            this.groupBox3.Controls.Add(this.borrowBookTitleTextbox);
+            this.groupBox3.Controls.Add(this.label24);
+            this.groupBox3.Controls.Add(this.borrowBookNumberTextbox);
+            this.groupBox3.Controls.Add(this.label23);
+            this.groupBox3.Controls.Add(this.label22);
+            this.groupBox3.Controls.Add(this.label21);
+            this.groupBox3.Controls.Add(this.label20);
+            this.groupBox3.Controls.Add(this.label19);
+            this.groupBox3.Controls.Add(this.label14);
+            this.groupBox3.Location = new System.Drawing.Point(859, 25);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(856, 334);
+            this.groupBox3.TabIndex = 8;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Details :";
+            // 
+            // borrowButton
+            // 
+            this.borrowButton.Location = new System.Drawing.Point(741, 31);
+            this.borrowButton.Name = "borrowButton";
+            this.borrowButton.Size = new System.Drawing.Size(112, 44);
+            this.borrowButton.TabIndex = 7;
+            this.borrowButton.Text = "Borrow";
+            this.borrowButton.UseVisualStyleBackColor = true;
+            this.borrowButton.Click += new System.EventHandler(this.borrowButton_Click);
+            // 
+            // memberSearchRadio
+            // 
+            this.memberSearchRadio.AutoSize = true;
+            this.memberSearchRadio.Location = new System.Drawing.Point(523, 43);
+            this.memberSearchRadio.Name = "memberSearchRadio";
+            this.memberSearchRadio.Size = new System.Drawing.Size(105, 29);
+            this.memberSearchRadio.TabIndex = 6;
+            this.memberSearchRadio.Text = "Member";
+            this.memberSearchRadio.UseVisualStyleBackColor = true;
+            // 
+            // bookSearchRadio
+            // 
+            this.bookSearchRadio.AutoSize = true;
+            this.bookSearchRadio.Checked = true;
+            this.bookSearchRadio.Location = new System.Drawing.Point(439, 43);
+            this.bookSearchRadio.Name = "bookSearchRadio";
+            this.bookSearchRadio.Size = new System.Drawing.Size(78, 29);
+            this.bookSearchRadio.TabIndex = 6;
+            this.bookSearchRadio.TabStop = true;
+            this.bookSearchRadio.Text = "Book";
+            this.bookSearchRadio.UseVisualStyleBackColor = true;
+            // 
+            // borrowSearchText
+            // 
+            this.borrowSearchText.Location = new System.Drawing.Point(99, 42);
+            this.borrowSearchText.Name = "borrowSearchText";
+            this.borrowSearchText.Size = new System.Drawing.Size(325, 30);
+            this.borrowSearchText.TabIndex = 1;
+            this.borrowSearchText.TextChanged += new System.EventHandler(this.borrowSearchText_TextChanged);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(7, 45);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(86, 25);
+            this.label13.TabIndex = 0;
+            this.label13.Text = "Search :";
+            // 
+            // borrowMemberList
+            // 
+            this.borrowMemberList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.borrowMemberList.FormattingEnabled = true;
+            this.borrowMemberList.HorizontalScrollbar = true;
+            this.borrowMemberList.ItemHeight = 25;
+            this.borrowMemberList.Location = new System.Drawing.Point(436, 81);
+            this.borrowMemberList.Name = "borrowMemberList";
+            this.borrowMemberList.Size = new System.Drawing.Size(417, 529);
+            this.borrowMemberList.TabIndex = 5;
+            this.borrowMemberList.SelectedIndexChanged += new System.EventHandler(this.borrowMemberList_SelectedIndexChanged);
+            // 
+            // borrowBookList
+            // 
+            this.borrowBookList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.borrowBookList.FormattingEnabled = true;
+            this.borrowBookList.HorizontalScrollbar = true;
+            this.borrowBookList.ItemHeight = 25;
+            this.borrowBookList.Location = new System.Drawing.Point(7, 81);
+            this.borrowBookList.Name = "borrowBookList";
+            this.borrowBookList.Size = new System.Drawing.Size(417, 529);
+            this.borrowBookList.TabIndex = 5;
+            this.borrowBookList.SelectedIndexChanged += new System.EventHandler(this.borrowBookList_SelectedIndexChanged);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(18, 32);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(142, 25);
+            this.label14.TabIndex = 0;
+            this.label14.Text = "Book Number :";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(50, 68);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(110, 25);
+            this.label19.TabIndex = 0;
+            this.label19.Text = "Book Title :";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(41, 104);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(119, 25);
+            this.label20.TabIndex = 0;
+            this.label20.Text = "Member ID :";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(8, 140);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(152, 25);
+            this.label21.TabIndex = 0;
+            this.label21.Text = "Member Name :";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(8, 176);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(152, 25);
+            this.label22.TabIndex = 0;
+            this.label22.Text = "Borrowed Date :";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(55, 214);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(105, 25);
+            this.label23.TabIndex = 0;
+            this.label23.Text = "Due Date :";
+            // 
+            // borrowBookNumberTextbox
+            // 
+            this.borrowBookNumberTextbox.Location = new System.Drawing.Point(166, 29);
+            this.borrowBookNumberTextbox.Name = "borrowBookNumberTextbox";
+            this.borrowBookNumberTextbox.ReadOnly = true;
+            this.borrowBookNumberTextbox.Size = new System.Drawing.Size(250, 30);
+            this.borrowBookNumberTextbox.TabIndex = 1;
+            // 
+            // borrowBookTitleTextbox
+            // 
+            this.borrowBookTitleTextbox.Location = new System.Drawing.Point(166, 65);
+            this.borrowBookTitleTextbox.Name = "borrowBookTitleTextbox";
+            this.borrowBookTitleTextbox.ReadOnly = true;
+            this.borrowBookTitleTextbox.Size = new System.Drawing.Size(406, 30);
+            this.borrowBookTitleTextbox.TabIndex = 1;
+            // 
+            // borrowMemberIDTextbox
+            // 
+            this.borrowMemberIDTextbox.Location = new System.Drawing.Point(166, 101);
+            this.borrowMemberIDTextbox.Name = "borrowMemberIDTextbox";
+            this.borrowMemberIDTextbox.ReadOnly = true;
+            this.borrowMemberIDTextbox.Size = new System.Drawing.Size(250, 30);
+            this.borrowMemberIDTextbox.TabIndex = 1;
+            // 
+            // borrowMemberNameTextbox
+            // 
+            this.borrowMemberNameTextbox.Location = new System.Drawing.Point(166, 137);
+            this.borrowMemberNameTextbox.Name = "borrowMemberNameTextbox";
+            this.borrowMemberNameTextbox.ReadOnly = true;
+            this.borrowMemberNameTextbox.Size = new System.Drawing.Size(318, 30);
+            this.borrowMemberNameTextbox.TabIndex = 1;
+            // 
+            // borrowBorrowedDateTextbox
+            // 
+            this.borrowBorrowedDateTextbox.Location = new System.Drawing.Point(167, 173);
+            this.borrowBorrowedDateTextbox.Name = "borrowBorrowedDateTextbox";
+            this.borrowBorrowedDateTextbox.ReadOnly = true;
+            this.borrowBorrowedDateTextbox.Size = new System.Drawing.Size(318, 30);
+            this.borrowBorrowedDateTextbox.TabIndex = 1;
+            // 
+            // borrowDueDateTextbox
+            // 
+            this.borrowDueDateTextbox.Location = new System.Drawing.Point(166, 209);
+            this.borrowDueDateTextbox.Name = "borrowDueDateTextbox";
+            this.borrowDueDateTextbox.ReadOnly = true;
+            this.borrowDueDateTextbox.Size = new System.Drawing.Size(318, 30);
+            this.borrowDueDateTextbox.TabIndex = 1;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(23, 248);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(138, 25);
+            this.label24.TabIndex = 0;
+            this.label24.Text = "Member Fine :";
+            // 
+            // borrowMemberFineTextbox
+            // 
+            this.borrowMemberFineTextbox.Location = new System.Drawing.Point(167, 245);
+            this.borrowMemberFineTextbox.Name = "borrowMemberFineTextbox";
+            this.borrowMemberFineTextbox.ReadOnly = true;
+            this.borrowMemberFineTextbox.Size = new System.Drawing.Size(112, 30);
+            this.borrowMemberFineTextbox.TabIndex = 1;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(45, 284);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(115, 25);
+            this.label25.TabIndex = 0;
+            this.label25.Text = "Availability :";
+            // 
+            // borrowAvailablityTextbox
+            // 
+            this.borrowAvailablityTextbox.Location = new System.Drawing.Point(167, 281);
+            this.borrowAvailablityTextbox.Name = "borrowAvailablityTextbox";
+            this.borrowAvailablityTextbox.ReadOnly = true;
+            this.borrowAvailablityTextbox.Size = new System.Drawing.Size(176, 30);
+            this.borrowAvailablityTextbox.TabIndex = 1;
             // 
             // Dashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1722, 648);
+            this.Controls.Add(this.BorrowBookGroupbox);
             this.Controls.Add(this.memberGroupBox);
             this.Controls.Add(this.bookGroupBox);
             this.Controls.Add(this.menu);
@@ -633,13 +922,16 @@
             this.bookGroupBox.PerformLayout();
             this.bookDetailsGroupBox.ResumeLayout(false);
             this.bookDetailsGroupBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.memberBorrowedBookDgv)).EndInit();
             this.memberGroupBox.ResumeLayout(false);
             this.memberGroupBox.PerformLayout();
+            this.BorrowBookGroupbox.ResumeLayout(false);
+            this.BorrowBookGroupbox.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -671,7 +963,6 @@
         private System.Windows.Forms.Button insertNewBookButton;
         private System.Windows.Forms.TextBox bookNumberTextbox;
         private System.Windows.Forms.Button bookAddOrUpdateButton;
-        private System.Windows.Forms.ErrorProvider errorProvider;
         private System.Windows.Forms.ToolStripMenuItem memberToolStripMenuItem;
         private System.Windows.Forms.TextBox bookBorrowDateTextbox;
         private System.Windows.Forms.Label label9;
@@ -698,6 +989,32 @@
         private System.Windows.Forms.MaskedTextBox memberPhoneTextbox;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox memberStatusTextbox;
+        private System.Windows.Forms.ToolStripMenuItem borrowToolStripMenuItem;
+        private System.Windows.Forms.GroupBox BorrowBookGroupbox;
+        private System.Windows.Forms.TextBox borrowSearchText;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.ListBox borrowBookList;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button borrowButton;
+        private System.Windows.Forms.RadioButton memberSearchRadio;
+        private System.Windows.Forms.RadioButton bookSearchRadio;
+        private System.Windows.Forms.ListBox borrowMemberList;
+        private System.Windows.Forms.TextBox borrowDueDateTextbox;
+        private System.Windows.Forms.TextBox borrowBorrowedDateTextbox;
+        private System.Windows.Forms.TextBox borrowMemberNameTextbox;
+        private System.Windows.Forms.TextBox borrowMemberIDTextbox;
+        private System.Windows.Forms.TextBox borrowBookTitleTextbox;
+        private System.Windows.Forms.TextBox borrowBookNumberTextbox;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox borrowMemberFineTextbox;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.TextBox borrowAvailablityTextbox;
+        private System.Windows.Forms.Label label25;
     }
 }
 
